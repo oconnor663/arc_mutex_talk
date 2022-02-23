@@ -39,7 +39,11 @@ Magic list:
 - Send and Sync
 
 Things that don't work:
-- No Mutex.
-- Mutex on the stack.
-  - but you can make this work
-- putting an Rc in the closure.
+- putting an Rc in the closure
+- no Mutex
+- mutex on the stack
+  - but this works with `crossbeam` today, and it'll be in std in the future
+  - https://doc.rust-lang.org/nightly/std/thread/fn.scope.html
+- global Mutex
+  - but this works with `once_cell` today, and again it'll be in std in the future
+  - https://doc.rust-lang.org/nightly/std/lazy/struct.SyncLazy.html

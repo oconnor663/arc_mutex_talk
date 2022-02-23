@@ -1,7 +1,14 @@
-use std::ops::{Deref, DerefMut};
+use std::ops::{Deref, DerefMut, RangeFrom};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::thread;
 use std::time::Duration;
+
+// These are in the standard prelude.
+use std::clone::Clone;
+use std::iter::IntoIterator;
+use std::option::Option::Some;
+use std::result::Result;
+use std::vec::Vec;
 
 fn main() {
     let output = Arc::new(Mutex::new(Vec::new()));
@@ -20,7 +27,9 @@ fn main() {
 }
 
 fn background_count(output: Arc<Mutex<Vec<u64>>>) {
-    for i in 0.. {
+    let range: RangeFrom<u64> = 0..;
+    let mut iterator = range.into_iter();
+    while let Some(i) = iterator.next() {
         thread::sleep(Duration::from_secs(1));
 
         let mutex: &Mutex<Vec<u64>> = output.deref();

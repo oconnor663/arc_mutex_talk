@@ -27,3 +27,8 @@
   - first with cloning
   - then without cloning
   - then without Arc
+
+- also mention the IntoIterator magic in the for-loop
+  - and the fact that Clone, Vec, and IntoIterator are in the prelude
+
+- mention the lifetime of unbound temporaries

@@ -13,7 +13,6 @@
     dereference `v` first. Turns out to be a limitation related to Deref and a
     special case in the borrow checker.
 
-
 - Arc
   - Deref
   - Clone
@@ -32,3 +31,15 @@
   - and the fact that Clone, Vec, and IntoIterator are in the prelude
 
 - mention the lifetime of unbound temporaries
+
+Magic list:
+- the prelude
+- Deref and DerefMut
+- IntoIterator
+- Send and Sync
+
+Things that don't work:
+- No Mutex.
+- Mutex on the stack.
+  - but you can make this work
+- putting an Rc in the closure.

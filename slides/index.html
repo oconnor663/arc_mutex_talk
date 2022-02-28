@@ -56,7 +56,8 @@
 
     <p>some <tt>code</tt></p>
 
-    <pre class="rust"><code data-trim data-noescape>
+    <pre class="rust">
+<code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -77,23 +78,27 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
         output.lock().unwrap().push(i);
     }
 }
-    </code></pre>
+</code>
+    </pre>
 </section>
 
 <!-- --------------------------------------------------------- -->
 
 <section>
-Slide 2
-<pre class="rust"><code data-trim data-noescape>
+    Slide 2
+    <pre class="rust">
+<code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
-</code></pre>
+</code>
+    </pre>
 </section>
 
 <section>
     Slide 3
-    <pre class="python"><code data-trim data-noescape>
+    <pre class="python">
+<code data-trim data-noescape>
 #! /usr/bin/env python3
 
 import threading
@@ -120,7 +125,8 @@ def background_count(output, mutex):
 
 if __name__ == "__main__":
     main()
-    </code></pre>
+</code>
+    </pre>
 </section>
 
 <!-- --------------------------------------------------------- -->
@@ -129,7 +135,8 @@ if __name__ == "__main__":
     Slide 4
     <div class="column_container">
         <div class="column">
-            <pre class="rust"><code data-trim data-noescape>
+            <pre class="rust">
+<code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -150,10 +157,12 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
         output.lock().unwrap().push(i);
     }
 }
-            </code></pre>
+</code>
+            </pre>
         </div>
         <div class="column">
-            <pre class="python"><code data-trim data-noescape>
+            <pre class="python">
+<code data-trim data-noescape>
 #! /usr/bin/env python3
 
 import threading
@@ -180,7 +189,8 @@ def background_count(output, mutex):
 
 if __name__ == "__main__":
     main()
-            </code></pre>
+</code>
+            </pre>
         </div>
     </div>
 </section>

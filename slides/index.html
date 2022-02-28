@@ -12,6 +12,20 @@
 
         <!-- Theme used for syntax highlighted code -->
         <link rel="stylesheet" href="plugin/highlight/solarized-dark.css">
+
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
+        <style>
+            tt {
+                background-color: #eee8d5;
+                padding: 0 .1em;
+                border-radius: .2em;
+                font-family: 'Ubuntu Mono', monospace;
+            }
+            .reveal pre code {
+                font-family: 'Ubuntu Mono', monospace;
+            }
+        </style>
     </head>
     <body>
         <div class="reveal">
@@ -19,6 +33,9 @@
 
 <section>
 Slide 1
+
+<p>some <tt>code</tt></p>
+
 <pre><code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;

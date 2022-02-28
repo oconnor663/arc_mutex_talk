@@ -26,6 +26,13 @@
                 font-family: 'Ubuntu Mono', monospace;
                 max-height: none;
             }
+            .column_container {
+                display: grid;
+                grid-auto-flow: column;
+                grid-auto-columns: 50%;
+            }
+            .column {
+            }
         </style>
     </head>
     <body>
@@ -100,6 +107,66 @@ def background_count(output, mutex):
 if __name__ == "__main__":
     main()
 </code></pre>
+</section>
+
+<section>
+    Slide 4
+    <div class="column_container">
+        <div class="column">
+            <pre class="rust"><code data-trim data-noescape>
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(|| background_count(output_clone));
+    loop {
+        thread::sleep(Duration::from_millis(100));
+        println!("{:?}", output.lock().unwrap());
+    }
+}
+
+fn background_count(output: Arc<Mutex<Vec<u64>>>) {
+    for i in 0.. {
+        thread::sleep(Duration::from_secs(1));
+        output.lock().unwrap().push(i);
+    }
+}
+            </code></pre>
+        </div>
+        <div class="column">
+            <pre class="python"><code data-trim data-noescape>
+#! /usr/bin/env python3
+
+import threading
+import time
+
+def main():
+    output = []
+    mutex = threading.Lock()
+    threading.Thread(
+        target=background_count,
+        args=(output, mutex),
+        daemon=True,
+    ).start()
+    while True:
+        time.sleep(0.1)
+        with mutex:
+            print(output)
+
+def background_count(output, mutex):
+    for i in range(2**64):
+        time.sleep(1)
+        with mutex:
+            output.append(i)
+
+if __name__ == "__main__":
+    main()
+            </code></pre>
+        </div>
+    </div>
 </section>
 
             </div>

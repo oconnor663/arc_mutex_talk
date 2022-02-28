@@ -93,6 +93,28 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
+    <section data-markdown>
+        <textarea data-template>
+            Things you need some prior experience with:
+
+            - <tt>Vec\<T\></tt>
+            - <tt>Result\<T, E\></tt> and <tt>.unwrap()</tt>
+            - <tt>\&T</tt> and <tt>\&mut T</tt>
+            - closures, for example <tt>|x| x + 1</tt>
+            - threads and locks (in any language)
+
+            You can learn these things from:
+
+            - [The Book](https://doc.rust-lang.org/stable/book/)
+            - [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
+            - [Rustlings](https://github.com/rust-lang/rustlings/)
+        </textarea>
+    </section>
+</section>
+
+<!-- --------------------------------------------------------- -->
+
+<section>
     Slide 2
     <pre class="rust">
 <code data-trim data-noescape>
@@ -102,6 +124,8 @@ use std::time::Duration;
 </code>
     </pre>
 </section>
+
+<!-- --------------------------------------------------------- -->
 
 <section>
     Slide 3

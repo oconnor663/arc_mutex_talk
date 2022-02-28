@@ -4,14 +4,14 @@ use std::time::Duration;
 
 fn main() {
     let output = Mutex::new(Vec::new());
-    thread::spawn(|| background_count(&output));
+    thread::spawn(|| fill_vector(&output));
     loop {
         thread::sleep(Duration::from_millis(100));
         println!("{:?}", output);
     }
 }
 
-fn background_count(output: &Mutex<Vec<u64>>) {
+fn fill_vector(output: &Mutex<Vec<u64>>) {
     for i in 0.. {
         thread::sleep(Duration::from_secs(1));
         output.lock().unwrap().push(i);

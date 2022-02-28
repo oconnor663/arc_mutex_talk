@@ -100,8 +100,6 @@ use std::time::Duration;
     Slide 3
     <pre class="python">
 <code data-trim data-noescape>
-#! /usr/bin/env python3
-
 import threading
 import time
 
@@ -123,9 +121,6 @@ def background_count(output, mutex):
         time.sleep(1)
         with mutex:
             output.append(i)
-
-if __name__ == "__main__":
-    main()
 </code>
     </pre>
 </section>
@@ -164,8 +159,6 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
         <div class="column">
             <pre class="python">
 <code data-trim data-noescape>
-#! /usr/bin/env python3
-
 import threading
 import time
 
@@ -187,9 +180,6 @@ def background_count(output, mutex):
         time.sleep(1)
         with mutex:
             output.append(i)
-
-if __name__ == "__main__":
-    main()
 </code>
             </pre>
         </div>

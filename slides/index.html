@@ -42,12 +42,21 @@
         <div class="reveal">
             <div class="slides">
 
+<!-- --------------------------------------------------------- -->
+
 <section>
-Slide 1
+    <h1>Title Slide</h1>
+    <h2>with a subtitle</h2>
+</section>
 
-<p>some <tt>code</tt></p>
+<!-- --------------------------------------------------------- -->
 
-<pre class="rust"><code data-trim data-noescape>
+<section>
+    <h3>Slide 1</h3>
+
+    <p>some <tt>code</tt></p>
+
+    <pre class="rust"><code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -68,8 +77,10 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
         output.lock().unwrap().push(i);
     }
 }
-</code></pre>
+    </code></pre>
 </section>
+
+<!-- --------------------------------------------------------- -->
 
 <section>
 Slide 2
@@ -81,8 +92,8 @@ use std::time::Duration;
 </section>
 
 <section>
-Slide 3
-<pre class="python"><code data-trim data-noescape>
+    Slide 3
+    <pre class="python"><code data-trim data-noescape>
 #! /usr/bin/env python3
 
 import threading
@@ -109,8 +120,10 @@ def background_count(output, mutex):
 
 if __name__ == "__main__":
     main()
-</code></pre>
+    </code></pre>
 </section>
+
+<!-- --------------------------------------------------------- -->
 
 <section>
     Slide 4
@@ -171,6 +184,8 @@ if __name__ == "__main__":
         </div>
     </div>
 </section>
+
+<!-- --------------------------------------------------------- -->
 
             </div>
         </div>

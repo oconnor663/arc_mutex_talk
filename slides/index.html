@@ -23,7 +23,7 @@
                 font-family: 'Ubuntu Mono', monospace;
             }
             .reveal pre {
-                width: fit-content;
+                width: 50%;
                 font-size: 24pt;
             }
             .reveal pre code {
@@ -36,6 +36,9 @@
                 grid-auto-columns: 50%;
             }
             .column {
+            }
+            .column pre {
+                width: 95%;
             }
         </style>
     </head>
@@ -131,6 +134,7 @@ def background_count(output, mutex):
     Slide 4
     <div class="column_container">
         <div class="column">
+            Rust
             <pre class="rust">
 <code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
@@ -157,6 +161,7 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
             </pre>
         </div>
         <div class="column">
+            Python
             <pre class="python">
 <code data-trim data-noescape>
 import threading

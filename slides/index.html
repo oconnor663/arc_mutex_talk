@@ -37,7 +37,7 @@ Slide 1
 
 <p>some <tt>code</tt></p>
 
-<pre><code data-trim data-noescape>
+<pre class="rust"><code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -63,6 +63,43 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
 
 <section>
 Slide 2
+<pre class="rust"><code data-trim data-noescape>
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+</code></pre>
+</section>
+
+<section>
+Slide 3
+<pre class="python"><code data-trim data-noescape>
+#! /usr/bin/env python3
+
+import threading
+import time
+
+def main():
+    output = []
+    mutex = threading.Lock()
+    threading.Thread(
+        target=background_count,
+        args=(output, mutex),
+        daemon=True,
+    ).start()
+    while True:
+        time.sleep(0.1)
+        with mutex:
+            print(output)
+
+def background_count(output, mutex):
+    for i in range(2**64):
+        time.sleep(1)
+        with mutex:
+            output.append(i)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
 </section>
 
             </div>

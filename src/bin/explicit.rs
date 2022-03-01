@@ -3,7 +3,6 @@ use std::sync::{Arc, Mutex, MutexGuard};
 use std::thread;
 use std::time::Duration;
 
-// These are in the standard prelude.
 use std::clone::Clone;
 use std::iter::IntoIterator;
 use std::option::Option::Some;

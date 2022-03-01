@@ -207,14 +207,13 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         </div>
         <div class="column">
             desugared
-            <pre class="rust" style="font-size: 13pt">
+            <pre class="rust" style="font-size: 14pt">
 <code data-trim data-noescape>
 use std::ops::{Deref, DerefMut, RangeFrom};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::thread;
 use std::time::Duration;
 
-// These are in the standard prelude.
 use std::clone::Clone;
 use std::iter::IntoIterator;
 use std::option::Option::Some;

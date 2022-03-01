@@ -5,6 +5,7 @@ use std::time::Duration;
 
 use std::clone::Clone;
 use std::iter::IntoIterator;
+use std::iter::Iterator;
 use std::option::Option::Some;
 use std::result::Result;
 use std::vec::Vec;

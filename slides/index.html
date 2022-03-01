@@ -259,6 +259,41 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
 
 <!-- --------------------------------------------------------- -->
 
+<section>
+    Imports and the prelude
+    <div class="column_container">
+        <div class="column">
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
+            <pre class="rust">
+<code data-trim><script type="text/template">
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+</script></code>
+            </pre>
+        </div>
+        <div class="column">
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
+            <pre class="rust">
+<code data-trim><script type="text/template">
+use std::ops::{Deref, DerefMut, RangeFrom};
+use std::sync::{Arc, Mutex, MutexGuard};
+use std::thread;
+use std::time::Duration;
+
+use std::clone::Clone;
+use std::iter::IntoIterator;
+use std::option::Option::Some;
+use std::result::Result;
+use std::vec::Vec;
+</script></code>
+            </pre>
+        </div>
+    </div>
+</section>
+
+<!-- --------------------------------------------------------- -->
+
             </div>
         </div>
 

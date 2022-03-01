@@ -294,6 +294,38 @@ use std::vec::Vec;
 
 <!-- --------------------------------------------------------- -->
 
+<section>
+    Spawning the background thread
+    <div class="column_container">
+        <div class="column">
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
+            <pre class="rust">
+<code data-trim><script type="text/template">
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(move || fill_vector(&output_clone));
+</script></code>
+            </pre>
+        </div>
+        <div class="column">
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
+            <pre class="rust">
+<code data-trim><script type="text/template">
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(|| {
+        let moved_clone = output_clone;
+        let mutex_ref: &Mutex<Vec<u64>> = moved_clone.deref();
+        fill_vector(mutex_ref);
+    });
+</script></code>
+            </pre>
+        </div>
+    </div>
+</section>
+
+<!-- --------------------------------------------------------- -->
+
             </div>
         </div>
 

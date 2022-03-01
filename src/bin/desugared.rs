@@ -22,8 +22,8 @@ fn main() {
         let mutex: &Mutex<Vec<u64>> = output.deref();
         let lock_result: Result<MutexGuard<Vec<u64>>, _> = mutex.lock();
         let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
-        let v: &Vec<u64> = guard.deref();
-        println!("{:?}", v);
+        // let v: &Vec<u64> = guard.deref();
+        println!("{:?}", guard);
         drop(guard);
     }
 }

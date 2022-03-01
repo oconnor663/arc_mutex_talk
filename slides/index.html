@@ -61,39 +61,6 @@
 <!-- --------------------------------------------------------- -->
 
 <section>
-    <h3>Slide 1</h3>
-
-    <p>some <tt>code</tt></p>
-
-    <pre class="rust">
-<code data-trim data-noescape>
-use std::sync::{Arc, Mutex};
-use std::thread;
-use std::time::Duration;
-
-fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(|| background_count(output_clone));
-    loop {
-        thread::sleep(Duration::from_millis(100));
-        println!("{:?}", output.lock().unwrap());
-    }
-}
-
-fn background_count(output: Arc<Mutex<Vec<u64>>>) {
-    for i in 0.. {
-        thread::sleep(Duration::from_secs(1));
-        output.lock().unwrap().push(i);
-    }
-}
-</code>
-    </pre>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
     <section data-markdown>
         <textarea data-template>
             Things you need some prior experience with:
@@ -116,14 +83,114 @@ fn background_count(output: Arc<Mutex<Vec<u64>>>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
-    Slide 2
+    The code
     <pre class="rust">
 <code data-trim data-noescape>
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
+
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(move || fill_vector(&output_clone));
+    loop {
+        thread::sleep(Duration::from_millis(100));
+        println!("{:?}", output.lock().unwrap());
+    }
+}
+
+fn fill_vector(output: &Mutex<Vec<u64>>) {
+    for i in 0.. {
+        thread::sleep(Duration::from_secs(1));
+        output.lock().unwrap().push(i);
+    }
+}
 </code>
     </pre>
+</section>
+
+<!-- --------------------------------------------------------- -->
+
+<section>
+    The same code
+    <div class="column_container">
+        <div class="column">
+            original
+            <pre class="rust">
+<code data-trim data-noescape>
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(move || fill_vector(&output_clone));
+    loop {
+        thread::sleep(Duration::from_millis(100));
+        println!("{:?}", output.lock().unwrap());
+    }
+}
+
+fn fill_vector(output: &Mutex<Vec<u64>>) {
+    for i in 0.. {
+        thread::sleep(Duration::from_secs(1));
+        output.lock().unwrap().push(i);
+    }
+}
+</code>
+            </pre>
+        </div>
+        <div class="column">
+            Rust
+            <pre class="rust" style="font-size: 14pt">
+<code data-trim data-noescape>
+use std::ops::{Deref, DerefMut, RangeFrom};
+use std::sync::{Arc, Mutex, MutexGuard};
+use std::thread;
+use std::time::Duration;
+
+// These are in the standard prelude.
+use std::clone::Clone;
+use std::iter::IntoIterator;
+use std::option::Option::Some;
+use std::result::Result;
+use std::vec::Vec;
+
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(|| {
+        let moved_clone = output_clone;
+        let mutex_ref: &Mutex<Vec<u64>> = moved_clone.deref();
+        fill_vector(mutex_ref);
+    });
+    loop {
+        thread::sleep(Duration::from_millis(100));
+        let mutex: &Mutex<Vec<u64>> = output.deref();
+        let lock_result: Result<MutexGuard<Vec<u64>>, _> = mutex.lock();
+        let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
+        let v: &Vec<u64> = guard.deref();
+        println!("{:?}", v);
+    }
+}
+
+fn fill_vector(output: &Mutex<Vec<u64>>) {
+    let range: RangeFrom<u64> = 0..;
+    let mut iterator = range.into_iter();
+    while let Some(i) = iterator.next() {
+        thread::sleep(Duration::from_secs(1));
+        let lock_result: Result<MutexGuard<Vec<u64>>, _> = output.lock();
+        let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
+        let v: &mut Vec<u64> = guard.deref_mut();
+        v.push(i);
+    }
+}
+</code>
+            </pre>
+        </div>
+    </div>
 </section>
 
 <!-- --------------------------------------------------------- -->

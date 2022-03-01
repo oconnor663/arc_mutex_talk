@@ -85,7 +85,7 @@
 <section>
     The code
     <pre class="rust">
-<code data-trim data-noescape>
+<code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -106,7 +106,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         output.lock().unwrap().push(i);
     }
 }
-</code>
+</script></code>
     </pre>
 </section>
 
@@ -118,7 +118,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         <div class="column">
             Rust
             <pre class="rust">
-<code data-trim data-noescape>
+<code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -139,13 +139,13 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         output.lock().unwrap().push(i);
     }
 }
-</code>
+</script></code>
             </pre>
         </div>
         <div class="column">
             Python
             <pre class="python">
-<code data-trim data-noescape>
+<code data-trim><script type="text/template">
 import threading
 import time
 
@@ -167,7 +167,7 @@ def fill_vector(output, mutex):
         time.sleep(1)
         with mutex:
             output.append(i)
-</code>
+</script></code>
             </pre>
         </div>
     </div>
@@ -181,7 +181,7 @@ def fill_vector(output, mutex):
         <div class="column">
             original
             <pre class="rust">
-<code data-trim data-noescape>
+<code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -202,13 +202,13 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         output.lock().unwrap().push(i);
     }
 }
-</code>
+</script></code>
             </pre>
         </div>
         <div class="column">
             desugared
             <pre class="rust" style="font-size: 14pt">
-<code data-trim data-noescape>
+<code data-trim><script type="text/template">
 use std::ops::{Deref, DerefMut, RangeFrom};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::thread;
@@ -251,7 +251,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         drop(guard);
     }
 }
-</code>
+</script></code>
             </pre>
         </div>
     </div>

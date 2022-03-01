@@ -3,11 +3,12 @@
 import threading
 import time
 
+
 def main():
     output = []
     mutex = threading.Lock()
     threading.Thread(
-        target=background_count,
+        target=fill_vector,
         args=(output, mutex),
         daemon=True,
     ).start()
@@ -16,11 +17,13 @@ def main():
         with mutex:
             print(output)
 
-def background_count(output, mutex):
+
+def fill_vector(output, mutex):
     for i in range(2**64):
         time.sleep(1)
         with mutex:
             output.append(i)
+
 
 if __name__ == "__main__":
     main()

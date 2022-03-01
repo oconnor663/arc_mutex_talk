@@ -113,7 +113,70 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
-    The same code
+    Side-by-side with Python
+    <div class="column_container">
+        <div class="column">
+            Rust
+            <pre class="rust">
+<code data-trim data-noescape>
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(move || fill_vector(&output_clone));
+    loop {
+        thread::sleep(Duration::from_millis(100));
+        println!("{:?}", output.lock().unwrap());
+    }
+}
+
+fn fill_vector(output: &Mutex<Vec<u64>>) {
+    for i in 0.. {
+        thread::sleep(Duration::from_secs(1));
+        output.lock().unwrap().push(i);
+    }
+}
+</code>
+            </pre>
+        </div>
+        <div class="column">
+            Python
+            <pre class="python">
+<code data-trim data-noescape>
+import threading
+import time
+
+def main():
+    output = []
+    mutex = threading.Lock()
+    threading.Thread(
+        target=fill_vector,
+        args=(output, mutex),
+        daemon=True,
+    ).start()
+    while True:
+        time.sleep(0.1)
+        with mutex:
+            print(output)
+
+def fill_vector(output, mutex):
+    for i in range(2**64):
+        time.sleep(1)
+        with mutex:
+            output.append(i)
+</code>
+            </pre>
+        </div>
+    </div>
+</section>
+
+<!-- --------------------------------------------------------- -->
+
+<section>
+    Removing syntactic sugar
     <div class="column_container">
         <div class="column">
             original
@@ -189,100 +252,6 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         drop(guard);
     }
 }
-</code>
-            </pre>
-        </div>
-    </div>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    Slide 3
-    <pre class="python">
-<code data-trim data-noescape>
-import threading
-import time
-
-def main():
-    output = []
-    mutex = threading.Lock()
-    threading.Thread(
-        target=background_count,
-        args=(output, mutex),
-        daemon=True,
-    ).start()
-    while True:
-        time.sleep(0.1)
-        with mutex:
-            print(output)
-
-def background_count(output, mutex):
-    for i in range(2**64):
-        time.sleep(1)
-        with mutex:
-            output.append(i)
-</code>
-    </pre>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    Slide 4
-    <div class="column_container">
-        <div class="column">
-            Rust
-            <pre class="rust">
-<code data-trim data-noescape>
-use std::sync::{Arc, Mutex};
-use std::thread;
-use std::time::Duration;
-
-fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(|| background_count(output_clone));
-    loop {
-        thread::sleep(Duration::from_millis(100));
-        println!("{:?}", output.lock().unwrap());
-    }
-}
-
-fn background_count(output: Arc<Mutex<Vec<u64>>>) {
-    for i in 0.. {
-        thread::sleep(Duration::from_secs(1));
-        output.lock().unwrap().push(i);
-    }
-}
-</code>
-            </pre>
-        </div>
-        <div class="column">
-            Python
-            <pre class="python">
-<code data-trim data-noescape>
-import threading
-import time
-
-def main():
-    output = []
-    mutex = threading.Lock()
-    threading.Thread(
-        target=background_count,
-        args=(output, mutex),
-        daemon=True,
-    ).start()
-    while True:
-        time.sleep(0.1)
-        with mutex:
-            print(output)
-
-def background_count(output, mutex):
-    for i in range(2**64):
-        time.sleep(1)
-        with mutex:
-            output.append(i)
 </code>
             </pre>
         </div>

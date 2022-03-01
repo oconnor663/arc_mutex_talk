@@ -69,6 +69,7 @@
             - <tt>Result\<T, E\></tt> and <tt>.unwrap()</tt>
             - <tt>\&T</tt> and <tt>\&mut T</tt>
             - closures, for example <tt>|x| x + 1</tt>
+            - traits, for example <tt>Clone</tt> and <tt>Add</tt>
             - threads and locks (in any language)
 
             You can learn these things from:
@@ -261,6 +262,8 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
 
 <section>
     Imports and the prelude
+
+    TALK ABOUT WHAT ARC IS HERE
     <div class="column_container">
         <div class="column">
             <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
@@ -402,18 +405,26 @@ Send and Sync
 
 <section>
 Crossbeam scope
+
+and the pre-1.0 scope story
 </section>
 
 <!-- --------------------------------------------------------- -->
 
 <section>
 Lazy
+
+globals are unsafe
+Vec::new() is const
 </section>
 
 <!-- --------------------------------------------------------- -->
 
 <section>
 What is Python doing exactly?
+
+automatic reference counting
+the GIL
 </section>
 
 <!-- --------------------------------------------------------- -->

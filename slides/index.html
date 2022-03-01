@@ -143,8 +143,8 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
             </pre>
         </div>
         <div class="column">
-            Rust
-            <pre class="rust" style="font-size: 14pt">
+            desugared
+            <pre class="rust" style="font-size: 13pt">
 <code data-trim data-noescape>
 use std::ops::{Deref, DerefMut, RangeFrom};
 use std::sync::{Arc, Mutex, MutexGuard};
@@ -173,6 +173,7 @@ fn main() {
         let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         let v: &Vec<u64> = guard.deref();
         println!("{:?}", v);
+        drop(guard);
     }
 }
 
@@ -185,6 +186,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         let v: &mut Vec<u64> = guard.deref_mut();
         v.push(i);
+        drop(guard);
     }
 }
 </code>

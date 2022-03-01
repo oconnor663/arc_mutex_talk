@@ -25,6 +25,7 @@ fn main() {
         let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         let v: &Vec<u64> = guard.deref();
         println!("{:?}", v);
+        drop(guard);
     }
 }
 
@@ -37,5 +38,6 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         let v: &mut Vec<u64> = guard.deref_mut();
         v.push(i);
+        drop(guard);
     }
 }

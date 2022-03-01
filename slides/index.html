@@ -83,7 +83,7 @@
 <!-- --------------------------------------------------------- -->
 
 <section>
-    The code
+    <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">The code</a>
     <pre class="rust">
 <code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
@@ -116,7 +116,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
     Side-by-side with Python
     <div class="column_container">
         <div class="column">
-            Rust
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">Rust</a>
             <pre class="rust">
 <code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
@@ -143,7 +143,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
             </pre>
         </div>
         <div class="column">
-            Python
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/original.py">Python</a>
             <pre class="python">
 <code data-trim><script type="text/template">
 import threading
@@ -179,7 +179,7 @@ def fill_vector(output, mutex):
     Removing syntactic sugar
     <div class="column_container">
         <div class="column">
-            original
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
             <pre class="rust">
 <code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
@@ -206,7 +206,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
             </pre>
         </div>
         <div class="column">
-            desugared
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
             <pre class="rust" style="font-size: 14pt">
 <code data-trim><script type="text/template">
 use std::ops::{Deref, DerefMut, RangeFrom};

@@ -18,13 +18,13 @@ fn main() {
         fill_vector(mutex_ref);
     });
     loop {
-        thread::sleep(Duration::from_millis(100));
         let mutex: &Mutex<Vec<u64>> = output.deref();
         let lock_result: Result<MutexGuard<Vec<u64>>, _> = mutex.lock();
         let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         // let v: &Vec<u64> = guard.deref();
         println!("{:?}", guard);
         drop(guard);
+        thread::sleep(Duration::from_millis(100));
     }
 }
 
@@ -32,11 +32,11 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
     let range: RangeFrom<u64> = 0..;
     let mut iterator = range.into_iter();
     while let Some(i) = iterator.next() {
-        thread::sleep(Duration::from_secs(1));
         let lock_result: Result<MutexGuard<Vec<u64>>, _> = output.lock();
         let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
         let v: &mut Vec<u64> = guard.deref_mut();
         v.push(i);
         drop(guard);
+        thread::sleep(Duration::from_secs(1));
     }
 }

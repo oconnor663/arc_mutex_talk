@@ -7,14 +7,14 @@ fn main() {
     let output_clone = output.clone();
     thread::spawn(|| fill_vector(output_clone));
     loop {
-        thread::sleep(Duration::from_millis(100));
         println!("{:?}", output);
+        thread::sleep(Duration::from_millis(100));
     }
 }
 
 fn fill_vector(output: Arc<Vec<u64>>) {
     for i in 0.. {
-        thread::sleep(Duration::from_secs(1));
         output.push(i);
+        thread::sleep(Duration::from_secs(1));
     }
 }

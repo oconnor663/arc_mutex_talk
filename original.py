@@ -13,16 +13,16 @@ def main():
         daemon=True,
     ).start()
     while True:
-        time.sleep(0.1)
         with mutex:
             print(output)
+        time.sleep(0.1)
 
 
 def fill_vector(output, mutex):
     for i in range(2**64):
-        time.sleep(1)
         with mutex:
             output.append(i)
+        time.sleep(1)
 
 
 if __name__ == "__main__":

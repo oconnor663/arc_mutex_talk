@@ -295,48 +295,21 @@ use std::vec::Vec;
 <!-- --------------------------------------------------------- -->
 
 <section>
-    Spawning the background thread
+    <tt>main</tt>
     <div class="column_container">
         <div class="column">
             <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
             <pre class="rust">
 <code data-trim><script type="text/template">
+fn main() {
     let output = Arc::new(Mutex::new(Vec::new()));
     let output_clone = output.clone();
     thread::spawn(move || fill_vector(&output_clone));
-</script></code>
-            </pre>
-        </div>
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(|| {
-        let moved_clone = output_clone;
-        let mutex_ref: &Mutex<Vec<u64>> = moved_clone.deref();
-        fill_vector(mutex_ref);
-    });
-</script></code>
-            </pre>
-        </div>
-    </div>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    The main print loop
-    <div class="column_container">
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
     loop {
         thread::sleep(Duration::from_millis(100));
         println!("{:?}", output.lock().unwrap());
     }
+}
 </script></code>
             </pre>
         </div>
@@ -344,10 +317,19 @@ use std::vec::Vec;
             <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
             <pre class="rust">
 <code data-trim><script type="text/template">
+fn main() {
+    let output = Arc::new(Mutex::new(Vec::new()));
+    let output_clone = output.clone();
+    thread::spawn(|| {
+        let moved_clone = output_clone;
+        let mutex_ref: &Mutex<Vec<u64>> =
+            moved_clone.deref();
+        fill_vector(mutex_ref);
+    });
     loop {
         thread::sleep(Duration::from_millis(100));
         let mutex: &Mutex<Vec<u64>> = output.deref();
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> =
+        let lock_result: Result<MutexGuard<_>, _> =
             mutex.lock();
         let guard: MutexGuard<Vec<u64>> =
             lock_result.unwrap();
@@ -355,6 +337,7 @@ use std::vec::Vec;
         println!("{:?}", v);
         drop(guard);
     }
+}
 </script></code>
             </pre>
         </div>
@@ -364,7 +347,7 @@ use std::vec::Vec;
 <!-- --------------------------------------------------------- -->
 
 <section>
-    The background loop
+    <tt>fill_vector</tt>
     <div class="column_container">
         <div class="column">
             <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>

@@ -378,7 +378,7 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
     let range: RangeFrom<u64> = 0..;
     let mut iterator = range.into_iter();
     while let Some(i) = iterator.next() {
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> =
+        let lock_result: Result<MutexGuard<_>, _> =
             output.lock();
         let mut guard: MutexGuard<Vec<u64>> =
             lock_result.unwrap();

@@ -47,3 +47,9 @@ Things that don't work:
 - global Mutex
   - but this works with `once_cell` today, and again it'll be in std in the future
   - https://doc.rust-lang.org/nightly/std/lazy/struct.SyncLazy.html
+
+Appendices
+- third party crates and the future of std
+- Arc cycles and leaks
+- what does Python actually do
+  - object resurrection

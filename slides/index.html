@@ -93,19 +93,18 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(move || fill_vector(&output_clone));
+    let number = Arc::new(Mutex::new(0u64));
+    let number_alias = number.clone();
+    thread::spawn(move || add_loop(&number_alias));
     loop {
-        println!("{:?}", output.lock().unwrap());
-        thread::sleep(Duration::from_millis(100));
+        println!("{}", *number.lock().unwrap());
+        thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    for i in 0.. {
-        output.lock().unwrap().push(i);
-        thread::sleep(Duration::from_secs(1));
+fn add_loop(number: &Mutex<u64>) {
+    loop {
+        *number.lock().unwrap() += 1;
     }
 }
 </script></code>
@@ -129,19 +128,18 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(move || fill_vector(&output_clone));
+    let number = Arc::new(Mutex::new(0u64));
+    let number_alias = number.clone();
+    thread::spawn(move || add_loop(&number_alias));
     loop {
-        println!("{:?}", output.lock().unwrap());
-        thread::sleep(Duration::from_millis(100));
+        println!("{}", *number.lock().unwrap());
+        thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    for i in 0.. {
-        output.lock().unwrap().push(i);
-        thread::sleep(Duration::from_secs(1));
+fn add_loop(number: &Mutex<u64>) {
+    loop {
+        *number.lock().unwrap() += 1;
     }
 }
 </script></code>
@@ -155,23 +153,22 @@ import threading
 import time
 
 def main():
-    output = []
+    number = [0]
     mutex = threading.Lock()
     threading.Thread(
-        target=fill_vector,
-        args=(output, mutex),
+        target=add_loop,
+        args=(number, mutex),
         daemon=True,
     ).start()
     while True:
         with mutex:
-            print(output)
-        time.sleep(0.1)
-
-def fill_vector(output, mutex):
-    for i in range(2**64):
-        with mutex:
-            output.append(i)
+            print(number[0])
         time.sleep(1)
+
+def add_loop(number, mutex):
+    while True:
+        with mutex:
+            number[0] += 1
 </script></code>
             </pre>
         </div>
@@ -192,19 +189,18 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(move || fill_vector(&output_clone));
+    let number = Arc::new(Mutex::new(0u64));
+    let number_alias = number.clone();
+    thread::spawn(move || add_loop(&number_alias));
     loop {
-        println!("{:?}", output.lock().unwrap());
-        thread::sleep(Duration::from_millis(100));
+        println!("{}", *number.lock().unwrap());
+        thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    for i in 0.. {
-        output.lock().unwrap().push(i);
-        thread::sleep(Duration::from_secs(1));
+fn add_loop(number: &Mutex<u64>) {
+    loop {
+        *number.lock().unwrap() += 1;
     }
 }
 </script></code>
@@ -212,49 +208,37 @@ fn fill_vector(output: &Mutex<Vec<u64>>) {
         </div>
         <div class="column">
             <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
-            <pre class="rust" style="font-size: 14pt">
+            <pre class="rust" style="font-size: 18pt">
 <code data-trim><script type="text/template">
-use std::ops::{Deref, DerefMut, RangeFrom};
-use std::sync::{Arc, Mutex, MutexGuard};
+use std::ops::{Deref, DerefMut};
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-use std::clone::Clone;
-use std::iter::IntoIterator;
-use std::iter::Iterator;
-use std::option::Option::Some;
-use std::result::Result;
-use std::vec::Vec;
-
 fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
+    let number = Arc::new(Mutex::new(0u64));
+    let number_alias = number.clone();
     thread::spawn(|| {
-        let moved_clone = output_clone;
-        let mutex_ref: &Mutex<Vec<u64>> = moved_clone.deref();
-        fill_vector(mutex_ref);
+        let moved_clone = number_alias;
+        let mutex_ref = moved_clone.deref();
+        add_loop(mutex_ref);
     });
     loop {
-        let mutex: &Mutex<Vec<u64>> = output.deref();
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> = mutex.lock();
-        let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
-        // let v: &Vec<u64> = guard.deref();
-        println!("{:?}", guard);
+        let mutex_ref = number.deref();
+        let guard = mutex_ref.lock().unwrap();
+        let number_ref = guard.deref();
+        println!("{}", *number_ref);
         drop(guard);
-        thread::sleep(Duration::from_millis(100));
+        thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    let range: RangeFrom<u64> = 0..;
-    let mut iterator = range.into_iter();
-    while let Some(i) = iterator.next() {
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> = output.lock();
-        let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
-        let v: &mut Vec<u64> = guard.deref_mut();
-        v.push(i);
+fn add_loop(number: &Mutex<u64>) {
+    loop {
+        let mut guard = number.lock().unwrap();
+        let number_mut = guard.deref_mut();
+        *number_mut += 1;
         drop(guard);
-        thread::sleep(Duration::from_secs(1));
     }
 }
 </script></code>

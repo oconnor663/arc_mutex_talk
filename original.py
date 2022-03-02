@@ -5,24 +5,23 @@ import time
 
 
 def main():
-    output = []
+    number = [0]
     mutex = threading.Lock()
     threading.Thread(
-        target=fill_vector,
-        args=(output, mutex),
+        target=add_loop,
+        args=(number, mutex),
         daemon=True,
     ).start()
     while True:
         with mutex:
-            print(output)
-        time.sleep(0.1)
-
-
-def fill_vector(output, mutex):
-    for i in range(2**64):
-        with mutex:
-            output.append(i)
+            print(number[0])
         time.sleep(1)
+
+
+def add_loop(number, mutex):
+    while True:
+        with mutex:
+            number[0] += 1
 
 
 if __name__ == "__main__":

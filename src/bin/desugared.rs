@@ -1,43 +1,31 @@
-use std::ops::{Deref, DerefMut, RangeFrom};
-use std::sync::{Arc, Mutex, MutexGuard};
+use std::ops::{Deref, DerefMut};
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-use std::clone::Clone;
-use std::iter::IntoIterator;
-use std::iter::Iterator;
-use std::option::Option::Some;
-use std::result::Result;
-use std::vec::Vec;
-
 fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
+    let number = Arc::new(Mutex::new(0u64));
+    let number_alias = number.clone();
     thread::spawn(|| {
-        let moved_clone = output_clone;
-        let mutex_ref: &Mutex<Vec<u64>> = moved_clone.deref();
-        fill_vector(mutex_ref);
+        let moved_clone = number_alias;
+        let mutex_ref = moved_clone.deref();
+        add_loop(mutex_ref);
     });
     loop {
-        let mutex: &Mutex<Vec<u64>> = output.deref();
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> = mutex.lock();
-        let guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
-        // let v: &Vec<u64> = guard.deref();
-        println!("{:?}", guard);
+        let mutex_ref = number.deref();
+        let guard = mutex_ref.lock().unwrap();
+        let number_ref = guard.deref();
+        println!("{}", *number_ref);
         drop(guard);
-        thread::sleep(Duration::from_millis(100));
+        thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    let range: RangeFrom<u64> = 0..;
-    let mut iterator = range.into_iter();
-    while let Some(i) = iterator.next() {
-        let lock_result: Result<MutexGuard<Vec<u64>>, _> = output.lock();
-        let mut guard: MutexGuard<Vec<u64>> = lock_result.unwrap();
-        let v: &mut Vec<u64> = guard.deref_mut();
-        v.push(i);
+fn add_loop(number: &Mutex<u64>) {
+    loop {
+        let mut guard = number.lock().unwrap();
+        let number_mut = guard.deref_mut();
+        *number_mut += 1;
         drop(guard);
-        thread::sleep(Duration::from_secs(1));
     }
 }

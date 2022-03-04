@@ -158,7 +158,6 @@ def main():
     threading.Thread(
         target=add_loop,
         args=(number, mutex),
-        daemon=True,
     ).start()
     while True:
         with mutex:

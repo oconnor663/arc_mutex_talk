@@ -10,6 +10,9 @@ def main():
     threading.Thread(
         target=add_loop,
         args=(number, mutex),
+        # Without daemon=True, Ctrl-C won't interrupt the program properly. But
+        # this isn't super relevant to the talk, so I'm not including it in the
+        # slide.
         daemon=True,
     ).start()
     while True:

@@ -85,7 +85,7 @@
 <!-- --------------------------------------------------------- -->
 
 <section>
-    <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">The code</a>
+    <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">the code</a>
     <pre class="rust">
 <code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
@@ -114,13 +114,9 @@ fn add_loop(number: &Mutex<u64>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
-    Side-by-side with Python
-
-    <p>talk about what arc is here?</p>
-
     <div class="column_container">
         <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">Rust</a>
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">the code</a>
             <pre class="rust">
 <code data-trim><script type="text/template">
 use std::sync::{Arc, Mutex};
@@ -146,7 +142,7 @@ fn add_loop(number: &Mutex<u64>) {
             </pre>
         </div>
         <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/original.py">Python</a>
+            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/original.py">similar Python</a>
             <pre class="python">
 <code data-trim><script type="text/template">
 import threading
@@ -256,137 +252,6 @@ fn add_loop(number: &Mutex<u64>) {
 
 <section>
     What is Deref?
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    Imports and the prelude
-
-    <div class="column_container">
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-use std::sync::{Arc, Mutex};
-use std::thread;
-use std::time::Duration;
-</script></code>
-            </pre>
-        </div>
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-use std::ops::{Deref, DerefMut, RangeFrom};
-use std::sync::{Arc, Mutex, MutexGuard};
-use std::thread;
-use std::time::Duration;
-
-use std::clone::Clone;
-use std::iter::IntoIterator;
-use std::iter::Iterator;
-use std::option::Option::Some;
-use std::result::Result;
-use std::vec::Vec;
-</script></code>
-            </pre>
-        </div>
-    </div>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    <tt>main</tt>
-    <div class="column_container">
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(move || fill_vector(&output_clone));
-    loop {
-        println!("{:?}", output.lock().unwrap());
-        thread::sleep(Duration::from_millis(100));
-    }
-}
-</script></code>
-            </pre>
-        </div>
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-fn main() {
-    let output = Arc::new(Mutex::new(Vec::new()));
-    let output_clone = output.clone();
-    thread::spawn(|| {
-        let moved_clone = output_clone;
-        let mutex_ref: &Mutex<Vec<u64>> =
-            moved_clone.deref();
-        fill_vector(mutex_ref);
-    });
-    loop {
-        let mutex: &Mutex<Vec<u64>> = output.deref();
-        let lock_result: Result<MutexGuard<_>, _> =
-            mutex.lock();
-        let guard: MutexGuard<Vec<u64>> =
-            lock_result.unwrap();
-        // let v: &Vec<u64> = guard.deref();
-        println!("{:?}", guard);
-        drop(guard);
-        thread::sleep(Duration::from_millis(100));
-    }
-}
-</script></code>
-            </pre>
-        </div>
-    </div>
-</section>
-
-<!-- --------------------------------------------------------- -->
-
-<section>
-    <tt>fill_vector</tt>
-    <div class="column_container">
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/original.rs">original</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    for i in 0.. {
-        output.lock().unwrap().push(i);
-        thread::sleep(Duration::from_secs(1));
-    }
-}
-</script></code>
-            </pre>
-        </div>
-        <div class="column">
-            <a href="https://github.com/oconnor663/arc_mutex_talk/blob/main/src/bin/desugared.rs">desugared</a>
-            <pre class="rust">
-<code data-trim><script type="text/template">
-fn fill_vector(output: &Mutex<Vec<u64>>) {
-    let range: RangeFrom<u64> = 0..;
-    let mut iterator = range.into_iter();
-    while let Some(i) = iterator.next() {
-        let lock_result: Result<MutexGuard<_>, _> =
-            output.lock();
-        let mut guard: MutexGuard<Vec<u64>> =
-            lock_result.unwrap();
-        let v: &mut Vec<u64> = guard.deref_mut();
-        v.push(i);
-        drop(guard);
-        thread::sleep(Duration::from_secs(1));
-    }
-}
-</script></code>
-            </pre>
-        </div>
-    </div>
 </section>
 
 <!-- --------------------------------------------------------- -->

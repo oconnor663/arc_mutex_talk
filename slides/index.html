@@ -94,8 +94,8 @@ use std::time::Duration;
 
 fn main() {
     let number = Arc::new(Mutex::new(0u64));
-    let number_alias = number.clone();
-    thread::spawn(move || add_loop(&number_alias));
+    let alias = number.clone();
+    thread::spawn(move || add_loop(&alias));
     loop {
         println!("{}", *number.lock().unwrap());
         thread::sleep(Duration::from_secs(1));
@@ -125,8 +125,8 @@ use std::time::Duration;
 
 fn main() {
     let number = Arc::new(Mutex::new(0u64));
-    let number_alias = number.clone();
-    thread::spawn(move || add_loop(&number_alias));
+    let alias = number.clone();
+    thread::spawn(move || add_loop(&alias));
     loop {
         println!("{}", *number.lock().unwrap());
         thread::sleep(Duration::from_secs(1));
@@ -191,8 +191,8 @@ use std::time::Duration;
 
 fn main() {
     let number = Arc::new(Mutex::new(0u64));
-    let number_alias = number.clone();
-    thread::spawn(move || add_loop(&number_alias));
+    let alias = number.clone();
+    thread::spawn(move || add_loop(&alias));
     loop {
         println!("{}", *number.lock().unwrap());
         thread::sleep(Duration::from_secs(1));
@@ -251,7 +251,28 @@ fn add_loop(number: &Mutex<u64>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
-    What is Deref?
+    Where have we seen this before?
+
+    <pre class="rust">
+<code data-trim><script type="text/template">
+fn take_a_slice(s: &[i32]) {
+    dbg!(s.len());
+}
+
+fn take_a_str(s: &str) {
+    dbg!(s.len());
+}
+
+fn main() {
+    let my_vec: Vec<i32> = vec![1, 2, 3];
+    take_a_slice(&my_vec);
+
+    let my_string: String = "foo".into();
+    take_a_str(&my_string);
+}
+</script></code>
+    </pre>
+
 </section>
 
 <!-- --------------------------------------------------------- -->

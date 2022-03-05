@@ -251,6 +251,70 @@ fn add_loop(number: &Mutex<u64>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
+    Dereferencing a reference
+
+    <pre class="rust">
+<code data-trim><script type="text/template">
+    let x = &42;
+    let y = *x;
+</script></code>
+    </pre>
+    <pre class="rust">
+<code data-trim><script type="text/template">
+    let x = &42;
+    *x = 43; // error: cannot assign to `*x`
+</script></code>
+    </pre>
+    <pre class="rust">
+<code data-trim><script type="text/template">
+    let x = &mut 42;
+    *x = 43;
+</script></code>
+    </pre>
+
+</section>
+
+<!-- --------------------------------------------------------- -->
+
+<section>
+    Dereferencing something else
+
+    <pre class="rust" style="font-size: 23pt">
+<code data-trim><script type="text/template">
+use std::ops::{Deref, DerefMut};
+
+struct IntHolder {
+    n: i32,
+}
+
+impl Deref for IntHolder {
+    type Target = i32;
+
+    fn deref(&self) -> &i32 {
+        &self.n
+    }
+}
+
+impl DerefMut for IntHolder {
+    fn deref_mut(&mut self) -> &mut i32 {
+        &mut self.n
+    }
+}
+
+fn main() {
+    let mut holder = IntHolder { n: 42 };
+    let x = *holder; // deref
+    *holder = x + 1; // deref_mut
+    assert_eq!(holder.n, 43);
+}
+</script></code>
+    </pre>
+
+</section>
+
+<!-- --------------------------------------------------------- -->
+
+<section>
     Where have we seen this before?
 
     <pre class="rust">

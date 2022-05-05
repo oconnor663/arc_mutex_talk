@@ -1,10 +1,6 @@
-fn take_a_slice(s: &[i32]) {
-    dbg!(s.len());
-}
+fn take_a_slice(_: &[i32]) {}
 
-fn take_a_str(s: &str) {
-    dbg!(s.len());
-}
+fn take_a_str(_: &str) {}
 
 fn main() {
     let my_vec: Vec<i32> = vec![1, 2, 3];

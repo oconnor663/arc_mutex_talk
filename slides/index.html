@@ -251,24 +251,23 @@ fn add_loop(number: &Mutex<u64>) {
 <!-- --------------------------------------------------------- -->
 
 <section>
-    Dereferencing a reference
+    The <tt>*</tt> we know and love
 
     <pre class="rust">
 <code data-trim><script type="text/template">
-    let x = &42;
-    let y = *x;
-</script></code>
-    </pre>
-    <pre class="rust">
-<code data-trim><script type="text/template">
-    let x = &42;
-    *x = 43; // error: cannot assign to `*x`
-</script></code>
-    </pre>
-    <pre class="rust">
-<code data-trim><script type="text/template">
-    let x = &mut 42;
-    *x = 43;
+    let foo: i32 = 42;
+    let foo_ref: &i32 = &foo;
+
+    // warning: unused unary operation that must be used
+    *foo_ref;
+
+    let bar: i32 = *foo_ref;
+    assert_eq!(bar, 42);
+
+    let mut foo: i32 = 42;
+    let foo_ref_mut: &mut i32 = &mut foo;
+    *foo_ref_mut = 99;
+    assert_eq!(foo, 99);
 </script></code>
     </pre>
 
@@ -319,13 +318,9 @@ fn main() {
 
     <pre class="rust">
 <code data-trim><script type="text/template">
-fn take_a_slice(s: &[i32]) {
-    dbg!(s.len());
-}
+fn take_a_slice(_: &[i32]) {}
 
-fn take_a_str(s: &str) {
-    dbg!(s.len());
-}
+fn take_a_str(_: &str) {}
 
 fn main() {
     let my_vec: Vec<i32> = vec![1, 2, 3];

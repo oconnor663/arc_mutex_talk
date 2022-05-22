@@ -1,0 +1,12 @@
+run the code
+
+original.rs
+    - The 0u64 explicit type is optional.
+    - The move keyword and & operator in thread::spawn are mandatory.
+    - Using `number` instead of `alias` fails.
+        - Note the warning about "deref coercion".
+    - The * operator in println is optional.
+    - However the * operator before += is mandatory.
+
+desugared.rs
+    - std::ops::Deref docs

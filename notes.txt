@@ -2,11 +2,22 @@ run the code
 
 original.rs
     - The 0u64 explicit type is optional.
-    - The move keyword and & operator in thread::spawn are mandatory.
+    - The move keyword and & operator in thread::spawn are
+      mandatory.
     - Using `number` instead of `alias` fails.
         - Note the warning about "deref coercion".
     - The * operator in println is optional.
+        - MutexGuard implements display.
     - However the * operator before += is mandatory.
 
 desugared.rs
     - std::ops::Deref docs
+        - compare to std::ops::Add
+    - detour into int_reference.rs
+    - detour into int_holder.rs
+        - Note how deref() doesn't *replace* the star.
+          Instead, it happens *before* the star. This is
+          different from add().
+        - If defer() replaced the star, it would need to
+          return a value. But note how assignment couldn't
+          work if deref_mut() returned a value.

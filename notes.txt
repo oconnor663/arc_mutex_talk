@@ -1,41 +1,31 @@
-run the code
-
 magic happening
-    - closures, captures, and the Fn/FnMut/FnOnce traits
-    - thread::spawn and 'static/Send bounds
-    - Deref, coercions, and the `.` operator
-
-closures
-    - keep in mind the difference between creation and execution
-    - the move keyword
-    - Fn/FnMut/FnOnce
-
-Deref
-    - Could I have made this function take Arc<Mutex> rather
-      than &Mutex? Sure. That would even avoid the need for
-      a `move` closure. But the real reason I took &Mutex
-      here is because this is something you see constantly,
-      just not with Mutex. This is the reason you can pass
-      &String to a function that wants &str.
-
-original.rs
-    - The 0u64 explicit type is optional.
-    - The move keyword and & operator in thread::spawn are
-      mandatory.
-    - Using `number` instead of `alias` fails.
-        - Note the warning about "deref coercion".
-    - The * operator in println is optional.
-        - MutexGuard implements display.
-    - However the * operator before += is mandatory.
-
-desugared.rs
-    - std::ops::Deref docs
-        - compare to std::ops::Add
-    - detour into int_reference.rs
-    - detour into int_holder.rs
-        - Note how deref() doesn't *replace* the star.
-          Instead, it happens *before* the star. This is
-          different from add().
-        - If defer() replaced the star, it would need to
-          return a value. But note how assignment couldn't
-          work if deref_mut() returned a value.
+    - Arc
+        - `number` and `alias` are the same object
+        - kind of like Python
+        - Arc vs Rc
+    - thread::spawn
+        - FnOnce/FnMut/Fn
+            - self vs &mut self vs &self
+        - 'static
+            - move keyword is required
+            - EXAMPLE getting rid of the Arc doesn't work
+        - Send
+            - Rc doesn't work
+    - Deref/DerefMut
+        - Deref in println and DerefMut with the += operator
+            - MutexGuard docs
+            - int_holder.rs
+        - .lock()
+            - EXAMPLE getting rid of the Mutex doesn't work
+        - add_loop()
+            - Contrived here, but common as &String -> &str.
+alternatives
+    - Mutex only, violates the 'static bound
+    - EXAMPLE global Mutex, non-const function error
+    - EXAMPLE unsafe global Mutex with MaybeUninit
+    - EXAMPLE safe global Mutex with once_cell::sync::Lazy
+    - EXAMPLE crossbeam::scope also works
+        - both of those are going into std someday
+    - can we get rid of the Mutex?
+        - RwLock
+        - atomics

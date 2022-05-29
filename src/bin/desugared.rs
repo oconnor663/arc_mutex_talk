@@ -6,11 +6,12 @@ use std::time::Duration;
 fn main() {
     let number: Arc<Mutex<u64>> = Arc::new(Mutex::new(0u64));
     let alias: Arc<Mutex<u64>> = number.clone();
-    thread::spawn(|| {
+    let closure = || {
         let moved: Arc<Mutex<u64>> = alias;
         let mutex: &Mutex<u64> = moved.deref();
         add_loop(mutex);
-    });
+    };
+    thread::spawn(closure);
     loop {
         let mutex: &Mutex<u64> = number.deref();
         let guard: MutexGuard<u64> = mutex.lock().unwrap();

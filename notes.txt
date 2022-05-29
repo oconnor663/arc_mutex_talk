@@ -1,5 +1,23 @@
 run the code
 
+magic happening
+    - closures, captures, and the Fn/FnMut/FnOnce traits
+    - thread::spawn and 'static/Send bounds
+    - Deref, coercions, and the `.` operator
+
+closures
+    - keep in mind the difference between creation and execution
+    - the move keyword
+    - Fn/FnMut/FnOnce
+
+Deref
+    - Could I have made this function take Arc<Mutex> rather
+      than &Mutex? Sure. That would even avoid the need for
+      a `move` closure. But the real reason I took &Mutex
+      here is because this is something you see constantly,
+      just not with Mutex. This is the reason you can pass
+      &String to a function that wants &str.
+
 original.rs
     - The 0u64 explicit type is optional.
     - The move keyword and & operator in thread::spawn are

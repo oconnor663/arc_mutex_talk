@@ -29,3 +29,8 @@ alternatives
     - can we get rid of the Mutex?
         - RwLock
         - atomics
+language tradeoffs
+    - Stroustrup's Rule
+    - invisible derefs, FnMut, Send
+    - destructors
+    - the .unwrap() after .lock()

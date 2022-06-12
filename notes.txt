@@ -1,8 +1,8 @@
 magic happening
     - Arc
         - `number` and `alias` are the same object
+        - exactly like C++ shared_ptr
         - kind of like Python
-        - Arc vs Rc
     - thread::spawn
         - FnOnce/FnMut/Fn
             - self vs &mut self vs &self

@@ -1,18 +1,27 @@
+use std::mem::MaybeUninit;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
+static mut NUMBER: MaybeUninit<Mutex<u64>> = MaybeUninit::uninit();
+
 fn main() {
-    let number = Mutex::new(0u64);
-    thread::spawn(|| add_loop(&number));
+    unsafe {
+        NUMBER.write(Mutex::new(0u64));
+    }
+    thread::spawn(add_loop);
     loop {
-        println!("{}", *number.lock().unwrap());
+        unsafe {
+            println!("{}", *NUMBER.assume_init_ref().lock().unwrap());
+        }
         thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn add_loop(number: &Mutex<u64>) {
+fn add_loop() {
     loop {
-        *number.lock().unwrap() += 1;
+        unsafe {
+            *NUMBER.assume_init_ref().lock().unwrap() += 1;
+        }
     }
 }

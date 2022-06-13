@@ -26,15 +26,15 @@ magic happening
         - add_loop()
             - Contrived here, but common as &String -> &str.
 alternatives
-    - Mutex only, violates the 'static bound
     - EXAMPLE global Mutex, non-const function error
     - EXAMPLE unsafe global Mutex with MaybeUninit
     - EXAMPLE safe global Mutex with once_cell::sync::Lazy
+        - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
     - EXAMPLE crossbeam::scope also works
-        - both of those are going into std someday
+        - https://doc.rust-lang.org/std/thread/fn.scope.html
     - can we get rid of the Mutex?
-        - RwLock
-        - atomics
+        - EXAMPLE unsafe static mut
+        - EXAMPLE atomics
 language tradeoffs
     - Stroustrup's Rule
     - invisible derefs, FnMut, Send

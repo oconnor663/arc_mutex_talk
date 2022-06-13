@@ -1,19 +1,20 @@
-use std::sync::Arc;
+use once_cell::sync::Lazy;
+use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
+static NUMBER: Lazy<Mutex<u64>> = Lazy::new(|| Mutex::new(0));
+
 fn main() {
-    let number = Arc::new(0u64);
-    let alias = number.clone();
-    thread::spawn(move || add_loop(alias));
+    thread::spawn(add_loop);
     loop {
-        println!("{}", *number);
+        println!("{}", *NUMBER.lock().unwrap());
         thread::sleep(Duration::from_secs(1));
     }
 }
 
-fn add_loop(number: Arc<u64>) {
+fn add_loop() {
     loop {
-        *number += 1;
+        *NUMBER.lock().unwrap() += 1;
     }
 }

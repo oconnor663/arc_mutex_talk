@@ -1,3 +1,9 @@
+assumed background:
+    - shared references and mutable references (chapter 4)
+    - Result and unwrap (chapter 9)
+    - traits and generic functions (chapter 10)
+    - Drop (chapter 15)
+    - overlap with the multithreaded webserver in chapter 20
 magic happening
     - Arc
         - `number` and `alias` are the same object

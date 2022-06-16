@@ -4,7 +4,7 @@ use std::time::Duration;
 
 fn main() {
     let number = Arc::new(Mutex::new(0u64));
-    let alias = number.clone();
+    let alias = Arc::clone(&number);
     thread::spawn(move || add_loop(&alias));
     loop {
         println!("{}", *number.lock().unwrap());

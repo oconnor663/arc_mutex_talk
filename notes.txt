@@ -9,14 +9,6 @@ magic happening
         - `number` and `alias` are the same object
         - exactly like C++ shared_ptr
         - kind of like Python
-    - thread::spawn
-        - FnOnce/FnMut/Fn
-            - self vs &mut self vs &self
-        - 'static
-            - move keyword is required
-            - EXAMPLE getting rid of the Arc doesn't work
-        - Send
-            - Rc doesn't work
     - Deref/DerefMut
         - Deref in println and DerefMut with the += operator
             - MutexGuard docs
@@ -25,6 +17,14 @@ magic happening
             - EXAMPLE getting rid of the Mutex doesn't work
         - add_loop()
             - Contrived here, but common as &String -> &str.
+    - thread::spawn
+        - FnOnce/FnMut/Fn
+            - self vs &mut self vs &self
+        - 'static
+            - move keyword is required
+            - EXAMPLE getting rid of the Arc doesn't work
+        - Send
+            - Rc doesn't work
 alternatives
     - EXAMPLE global Mutex, non-const function error
     - EXAMPLE unsafe global Mutex with MaybeUninit

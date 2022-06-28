@@ -27,11 +27,13 @@ magic happening
             - Rc doesn't work
 alternatives
     - EXAMPLE global Mutex, non-const function error
+        - will be const in 1.63
     - EXAMPLE unsafe global Mutex with MaybeUninit
     - EXAMPLE safe global Mutex with once_cell::sync::Lazy
         - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
     - EXAMPLE crossbeam::scope also works
         - https://doc.rust-lang.org/std/thread/fn.scope.html
+        - will be standard in 1.63
     - can we get rid of the Mutex?
         - EXAMPLE unsafe static mut
         - EXAMPLE atomics

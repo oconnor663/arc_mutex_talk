@@ -4,19 +4,15 @@ use std::time::Duration;
 static mut NUMBER: u64 = 0;
 
 fn main() {
-    thread::spawn(add_loop);
+    thread::spawn(|| loop {
+        unsafe {
+            NUMBER += 1;
+        }
+    });
     loop {
         unsafe {
             println!("{}", NUMBER);
         }
         thread::sleep(Duration::from_secs(1));
-    }
-}
-
-fn add_loop() {
-    loop {
-        unsafe {
-            NUMBER += 1;
-        }
     }
 }

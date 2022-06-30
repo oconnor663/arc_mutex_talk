@@ -1,22 +1,21 @@
+use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static mut NUMBER: u64 = 0;
-
 fn main() {
-    thread::spawn(add_loop);
-    loop {
-        unsafe {
-            println!("{}", NUMBER);
+    let number = Mutex::new(0u64);
+    crossbeam::scope(|scope| {
+        scope.spawn(|_| add_loop(&number));
+        loop {
+            println!("{}", *number.lock().unwrap());
+            thread::sleep(Duration::from_secs(1));
         }
-        thread::sleep(Duration::from_secs(1));
-    }
+    })
+    .unwrap();
 }
 
-fn add_loop() {
+fn add_loop(number: &Mutex<u64>) {
     loop {
-        unsafe {
-            NUMBER += 1;
-        }
+        *number.lock().unwrap() += 1;
     }
 }

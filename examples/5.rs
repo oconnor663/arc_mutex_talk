@@ -1,21 +1,20 @@
+use once_cell::sync::Lazy;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
+static NUMBER: Lazy<Mutex<u64>> = Lazy::new(|| Mutex::new(0));
+
 fn main() {
-    let number = Mutex::new(0u64);
-    crossbeam::scope(|scope| {
-        scope.spawn(|_| add_loop(&number));
-        loop {
-            println!("{}", *number.lock().unwrap());
-            thread::sleep(Duration::from_secs(1));
-        }
-    })
-    .unwrap();
+    thread::spawn(add_loop);
+    loop {
+        println!("{}", *NUMBER.lock().unwrap());
+        thread::sleep(Duration::from_secs(1));
+    }
 }
 
-fn add_loop(number: &Mutex<u64>) {
+fn add_loop() {
     loop {
-        *number.lock().unwrap() += 1;
+        *NUMBER.lock().unwrap() += 1;
     }
 }

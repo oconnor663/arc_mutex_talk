@@ -1,4 +1,4 @@
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, MutexGuard};
 use std::thread;
 use std::time::Duration;
 
@@ -7,13 +7,16 @@ fn main() {
     let alias = Arc::clone(&number);
     thread::spawn(move || add_loop(&alias));
     loop {
-        println!("{}", *number.lock().unwrap());
+        let guard: MutexGuard<u64> = number.lock().unwrap();
+        println!("{}", *guard);
+        drop(guard);
         thread::sleep(Duration::from_secs(1));
     }
 }
 
 fn add_loop(number: &Mutex<u64>) {
     loop {
-        *number.lock().unwrap() += 1;
+        let mut guard: MutexGuard<u64> = number.lock().unwrap();
+        *guard += 1;
     }
 }

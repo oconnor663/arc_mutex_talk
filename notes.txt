@@ -5,10 +5,15 @@ assumed background:
     - Drop (chapter 15)
     - overlap with the multithreaded webserver in chapter 20
 magic happening
-    - Arc
+    - Arc is "like" a shared reference.
         - `number` and `alias` are the same object
-        - exactly like C++ shared_ptr
-        - kind of like Python
+        - decrement in the destructor, exactly like C++ shared_ptr and kind of
+          like Python
+    - MutexGuard is "like" a mutable reference.
+        - unlock in the destructor
+        - Holding the guard across sleep would be bad, so we drop it. Or we
+          could use curly braces. But in real life we combine all three lines,
+          and the guard becomes a temporary.
     - Deref/DerefMut
         - Deref in println and DerefMut with the += operator
             - MutexGuard docs
@@ -30,6 +35,8 @@ alternatives
         - will be const in 1.63
     - EXAMPLE unsafe global Mutex with MaybeUninit
     - EXAMPLE safe global Mutex with once_cell::sync::Lazy
+        - and now we make guard a temporary, and sleep can go at the end
+            - we could always have done this
         - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
     - EXAMPLE crossbeam::scope also works
         - https://doc.rust-lang.org/std/thread/fn.scope.html

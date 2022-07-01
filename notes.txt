@@ -1,51 +1,49 @@
-assumed background:
-    - shared references and mutable references (chapter 4)
-    - Result and unwrap (chapter 9)
-    - traits and generic functions (chapter 10)
-    - Drop (chapter 15)
-    - overlap with the multithreaded webserver in chapter 20
-magic happening
-    - Arc is "like" a shared reference.
-        - `number` and `alias` are the same object
-        - decrement in the destructor, exactly like C++ shared_ptr and kind of
-          like Python
-    - MutexGuard is "like" a mutable reference.
-        - unlock in the destructor
-        - Holding the guard across sleep would be bad, so we drop it. Or we
-          could use curly braces. But in real life we combine all three lines,
-          and the guard becomes a temporary.
-    - Deref/DerefMut
-        - Deref in println and DerefMut with the += operator
-            - MutexGuard docs
-            - int_holder.rs
-        - .lock()
-            - EXAMPLE getting rid of the Mutex doesn't work
-        - add_loop()
-            - Contrived here, but common as &String -> &str.
-    - thread::spawn
-        - FnOnce/FnMut/Fn
-            - self vs &mut self vs &self
-        - 'static
-            - move keyword is required
-            - EXAMPLE getting rid of the Arc doesn't work
-        - Send
-            - Rc doesn't work
-alternatives
-    - EXAMPLE global Mutex, non-const function error
-        - will be const in 1.63
-    - EXAMPLE unsafe global Mutex with MaybeUninit
-    - EXAMPLE safe global Mutex with once_cell::sync::Lazy
-        - and now we make guard a temporary, and sleep can go at the end
-            - we could always have done this
-        - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
-    - EXAMPLE crossbeam::scope also works
-        - https://doc.rust-lang.org/std/thread/fn.scope.html
-        - will be standard in 1.63
-    - can we get rid of the Mutex?
-        - EXAMPLE unsafe static mut
-        - EXAMPLE atomics
-language tradeoffs
-    - Stroustrup's Rule
-    - invisible derefs, FnMut, Send
-    - destructors
-    - the .unwrap() after .lock()
+- closure syntax
+    - Like C++ lambda syntax, the Python `lambda` keyword, the Go
+      `func` keyword, JS `function` or `=>`.
+    - C++ and Rust both have to be careful with "capture by value"
+      vs "capture by reference". Thus the `move` keyword.
+- [example 1]: explicit types
+- MutexGuard has two jobs
+    - "act like" a mutable reference
+    - release the lock in drop()
+    - similar to std::lock_guard or Python's `with` statement
+- Arc has two jobs
+    - "act like" a shared reference
+    - free the object in drop()
+    - similar to std::shared_ptr or Python's reference counting
+- Why did I add the explicit drop() here?
+    - Holding the guard across sleep would be bad. Or we could've
+      used curly braces.
+    - When we combined all three lines, the guard was a temporary.
+    - EXERCISE: forgetting the guard and the "unfair" Mutex.
+- Deref/DerefMut
+    - Deref in println and DerefMut with the += operator
+    - automatic deref in .lock()
+- [example 2] deref coercion in add_loop
+    - this is contrived, but common as &String -> &str.
+- EXERCISE: omitting the Mutex doesn't work
+- thread::spawn
+    - FnOnce/FnMut/Fn
+        - self vs &mut self vs &self
+    - 'static
+        - move keyword is required
+        - EXAMPLE getting rid of the Arc doesn't work
+    - Send
+        - Rc doesn't work
+- EXERCISE: omitting the Arc doesn't work
+    - use-after-move, or non-static lifetime errors
+- [example 3]: global Mutex, non-const function error
+    - will be const in 1.63, but contents might not be
+    - note that the closure goes away, regular functions impl FnOnce
+- [example 4]: unsafe global Mutex with Option
+    - static mut is always unsafe
+    - could've used MaybeUninit, or just a raw pointer
+- [example 5]: safe global Mutex with once_cell::sync::Lazy
+    - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
+- [example 6]: crossbeam::scope also works
+    - https://doc.rust-lang.org/std/thread/fn.scope.html
+    - will be standard in 1.63
+- [example 7]: unsafe static mut u64
+    - EXERCISE: doesn't work with --release
+- [example 8]: atomics

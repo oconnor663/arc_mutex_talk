@@ -5,7 +5,7 @@
       `func` keyword, JS `function` or `=>`.
     - C++ and Rust both have to be careful with "capture by value"
       vs "capture by reference". Thus the `move` keyword.
-- [example 1]: explicit types
+- [example 1](examples/1.rs): explicit types
 - MutexGuard has two jobs
     - "act like" a mutable reference
     - release the lock in drop()
@@ -22,7 +22,7 @@
 - Deref/DerefMut
     - Deref in println and DerefMut with the += operator
     - automatic deref in .lock()
-- [example 2]: deref coercion in add\_loop
+- [example 2](examples/2.rs): deref coercion in add\_loop
     - this is contrived, but common as &String -> &str.
 - EXERCISE: omitting the Mutex doesn't work
 - thread::spawn
@@ -35,18 +35,18 @@
         - Rc doesn't work
 - EXERCISE: omitting the Arc doesn't work
     - use-after-move, or non-static lifetime errors
-- [example 3]: global Mutex, non-const function error
+- [example 3](examples/3.rs): global Mutex, non-const function error
     - will be const in 1.63, but contents might not be
     - note that the closure goes away, regular functions impl FnOnce
-- [example 4]: unsafe global Mutex with Option
+- [example 4](examples/4.rs): unsafe global Mutex with Option
     - static mut is always unsafe
     - could've used MaybeUninit, or just a raw pointer
-- [example 5]: safe global Mutex with once\_cell::sync::Lazy
+- [example 5](examples/5.rs): safe global Mutex with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
-- [example 6]: crossbeam::scope also works
+- [example 6](examples/6.rs): crossbeam::scope also works
     - https://doc.rust-lang.org/std/thread/fn.scope.html
     - will be standard in 1.63
     - was also standard pre-1.0, but unsound
-- [example 7]: unsafe static mut u64
+- [example 7](examples/7.rs): unsafe static mut u64
     - EXERCISE: doesn't work with --release
-- [example 8]: atomics
+- [example 8](examples/8.rs): atomics

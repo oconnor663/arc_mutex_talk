@@ -9,11 +9,11 @@
 - MutexGuard has two jobs
     - "act like" a mutable reference
     - release the lock in drop()
-    - similar to std::lock_guard or Python's `with` statement
+    - similar to std::lock\_guard or Python's `with` statement
 - Arc has two jobs
     - "act like" a shared reference
     - free the object in drop()
-    - similar to std::shared_ptr or Python's reference counting
+    - similar to std::shared\_ptr or Python's reference counting
 - Why did I add the explicit drop() here?
     - Holding the guard across sleep would be bad. Or we could've
       used curly braces.
@@ -22,7 +22,7 @@
 - Deref/DerefMut
     - Deref in println and DerefMut with the += operator
     - automatic deref in .lock()
-- [example 2] deref coercion in add_loop
+- [example 2]: deref coercion in add\_loop
     - this is contrived, but common as &String -> &str.
 - EXERCISE: omitting the Mutex doesn't work
 - thread::spawn
@@ -41,11 +41,12 @@
 - [example 4]: unsafe global Mutex with Option
     - static mut is always unsafe
     - could've used MaybeUninit, or just a raw pointer
-- [example 5]: safe global Mutex with once_cell::sync::Lazy
+- [example 5]: safe global Mutex with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
 - [example 6]: crossbeam::scope also works
     - https://doc.rust-lang.org/std/thread/fn.scope.html
     - will be standard in 1.63
+    - was also standard pre-1.0, but unsound
 - [example 7]: unsafe static mut u64
     - EXERCISE: doesn't work with --release
 - [example 8]: atomics

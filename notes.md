@@ -1,3 +1,5 @@
+# Intermediate Rust: Happy Accidents with Arc and Mutex
+
 - closure syntax
     - Like C++ lambda syntax, the Python `lambda` keyword, the Go
       `func` keyword, JS `function` or `=>`.

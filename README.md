@@ -5,15 +5,16 @@
       `func` keyword, JS `function` or `=>`.
     - C++ and Rust both have to be careful with "capture by value"
       vs "capture by reference". Thus the `move` keyword.
+    - EXERCISE: Can we remove the `move` keyword? No.
+- Arc has two jobs
+    - "act like" a shared reference
+    - free the object in drop()
+    - similar to std::shared\_ptr or Python's reference counting
 - [example 1](examples/1.rs): explicit types
 - MutexGuard has two jobs
     - "act like" a mutable reference
     - release the lock in drop()
     - similar to std::lock\_guard or Python's `with` statement
-- Arc has two jobs
-    - "act like" a shared reference
-    - free the object in drop()
-    - similar to std::shared\_ptr or Python's reference counting
 - Why did I add the explicit drop() here?
     - Holding the guard across sleep would be bad. Or we could've
       used curly braces.

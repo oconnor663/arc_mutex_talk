@@ -10,6 +10,8 @@
     - "act like" a shared reference
     - free the object in drop()
     - similar to std::shared\_ptr or Python's reference counting
+    - How did we get a lifetime error if Arc has no lifetimes?
+      Because the closure was implicitly taking a shared reference.
 - [example 1](examples/1.rs): explicit types
 - MutexGuard has two jobs
     - "act like" a mutable reference

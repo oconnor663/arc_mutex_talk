@@ -20,7 +20,7 @@
       used curly braces.
     - When we combined all three lines, the guard was a temporary.
     - EXERCISE: forgetting the guard and the "unfair" Mutex.
-- Deref/DerefMut
+- What does it mean to be "like" a reference? Deref/DerefMut
     - Deref in println and DerefMut with the += operator
     - automatic deref in .lock()
 - [example 2](examples/2.rs): deref coercion in add\_loop

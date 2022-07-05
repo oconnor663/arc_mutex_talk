@@ -1,4 +1,36 @@
-# Intermediate Rust: Happy Accidents with Arc and Mutex
+# Arc and Mutex by Example
+## Climbing the Learning Curve into Intermediate Rust
+
+Threading is really central to what Rust is doing, but it takes a lot of
+work to get up to speed to understand these examples.
+
+you need a dozen different examples to explore all the different rules
+that are coming into the picture here
+- mutability
+- lifetimes
+- move semantics
+- traits
+- closures
+later:
+- static
+- const
+- atomic
+
+Threading in Rust can be so difficult in Rust that it's demotivating.
+
+It's especially hard to produce *working code* as a beginner, and it's a
+lot easier to figure out why something doesn't work when you can compare
+it to something that does work. So we're going to see a lot of working
+code.
+
+Also you really need hands-on experience to remember this stuff. You can
+play with these examples.
+
+And some people don't like just reading a book. It gets hard to keep
+stuff in your head, and you need something specific to work towards.
+Maybe understanding these examples can be something to work towards.
+Also seeing how fast computers can do arithmetic is kind of fun and
+worth playing around with.
 
 - closure syntax
     - Like C++ lambda syntax, the Python `lambda` keyword, the Go
@@ -6,6 +38,7 @@
     - C++ and Rust both have to be careful with "capture by value"
       vs "capture by reference". Thus the `move` keyword.
     - EXERCISE: Can we remove the `move` keyword? No.
+    - EXERCISE: Can we get rid of the Arc? No. Same lifetime error.
 - Arc has two jobs
     - "act like" a shared reference
     - free the object in drop()

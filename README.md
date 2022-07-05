@@ -64,13 +64,12 @@ worth playing around with.
 - thread::spawn
     - FnOnce/FnMut/Fn
         - self vs &mut self vs &self
+        - NOT ENOUGH TIME FOR THIS
     - 'static
         - move keyword is required
         - EXAMPLE getting rid of the Arc doesn't work
     - Send
         - Rc doesn't work
-- EXERCISE: omitting the Arc doesn't work
-    - use-after-move, or non-static lifetime errors
 - [example 3](examples/3.rs): global Mutex, non-const function error
     - will be const in 1.63, but contents might not be
     - note that the closure goes away, regular functions impl FnOnce

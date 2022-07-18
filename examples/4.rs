@@ -6,7 +6,7 @@ static mut NUMBER: Option<Mutex<u64>> = None;
 
 fn main() {
     unsafe {
-        NUMBER = Some(Mutex::new(0u64));
+        NUMBER = Some(Mutex::new(rand::random()));
     }
     thread::spawn(|| loop {
         unsafe {

@@ -3,7 +3,7 @@ use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static NUMBER: Lazy<Mutex<u64>> = Lazy::new(|| Mutex::new(0));
+static NUMBER: Lazy<Mutex<u64>> = Lazy::new(|| Mutex::new(rand::random()));
 
 fn main() {
     thread::spawn(|| loop {

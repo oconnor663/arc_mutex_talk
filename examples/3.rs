@@ -2,7 +2,7 @@ use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static NUMBER: Mutex<u64> = Mutex::new(0);
+static NUMBER: Mutex<u64> = Mutex::new(rand::random());
 
 fn main() {
     thread::spawn(add_loop);

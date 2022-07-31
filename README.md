@@ -70,18 +70,18 @@ worth playing around with.
         - EXAMPLE getting rid of the Arc doesn't work
     - Send
         - Rc doesn't work
-- [example 3](examples/3.rs): global Mutex, non-const function error
-    - will be const in 1.63, but contents might not be
+- [example 3](examples/3.rs) and [example 4](examples/4.rs): global Mutex, non-const function error
+    - const in 1.63, but contents might not be
     - note that the closure goes away, regular functions impl FnOnce
-- [example 4](examples/4.rs): unsafe global Mutex with Option
+- [example 5](examples/5.rs): unsafe global Mutex with Option
     - static mut is always unsafe
     - could've used MaybeUninit, or just a raw pointer
-- [example 5](examples/5.rs): safe global Mutex with once\_cell::sync::Lazy
+- [example 6](examples/6.rs): safe global Mutex with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
-- [example 6](examples/6.rs): crossbeam::scope also works
+- [example 7](examples/7.rs): crossbeam::scope also works
     - https://doc.rust-lang.org/std/thread/fn.scope.html
     - will be standard in 1.63
     - was also standard pre-1.0, but unsound
-- [example 7](examples/7.rs): unsafe static mut u64
+- [example 8](examples/8.rs): unsafe static mut u64
     - EXERCISE: doesn't work with --release
-- [example 8](examples/8.rs): atomics
+- [example 9](examples/9.rs): atomics

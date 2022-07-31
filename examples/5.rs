@@ -1,16 +1,22 @@
-use once_cell::sync::Lazy;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static NUMBER: Lazy<Mutex<u64>> = Lazy::new(|| Mutex::new(rand::random()));
+static mut NUMBER: Option<Mutex<u64>> = None;
 
 fn main() {
+    unsafe {
+        NUMBER = Some(Mutex::new(rand::random()));
+    }
     thread::spawn(|| loop {
-        *NUMBER.lock().unwrap() += 1;
+        unsafe {
+            *NUMBER.as_ref().unwrap().lock().unwrap() += 1;
+        }
     });
     loop {
-        println!("{}", *NUMBER.lock().unwrap());
+        unsafe {
+            println!("{}", *NUMBER.as_ref().unwrap().lock().unwrap());
+        }
         thread::sleep(Duration::from_secs(1));
     }
 }

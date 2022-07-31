@@ -2,21 +2,18 @@ use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static mut NUMBER: Option<Mutex<u64>> = None;
+static NUMBER: Mutex<u64> = Mutex::new(rand::random());
 
 fn main() {
-    unsafe {
-        NUMBER = Some(Mutex::new(rand::random()));
-    }
-    thread::spawn(|| loop {
-        unsafe {
-            *NUMBER.as_ref().unwrap().lock().unwrap() += 1;
-        }
-    });
+    thread::spawn(add_loop);
     loop {
-        unsafe {
-            println!("{}", *NUMBER.as_ref().unwrap().lock().unwrap());
-        }
+        println!("{}", *NUMBER.lock().unwrap());
         thread::sleep(Duration::from_secs(1));
+    }
+}
+
+fn add_loop() {
+    loop {
+        *NUMBER.lock().unwrap() += 1;
     }
 }

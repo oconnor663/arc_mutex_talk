@@ -38,7 +38,9 @@ worth playing around with.
     - C++ and Rust both have to be careful with "capture by value"
       vs "capture by reference". Thus the `move` keyword.
     - EXERCISE: Can we remove the `move` keyword? No.
-    - EXERCISE: Can we get rid of the Arc? No. Same lifetime error.
+    - EXERCISE: Can we get rid of the Arc? No, same lifetime error, this time
+      taking ownership of a reference.
+    - EXERCISE: Can we get rid of `alias`? No, use of moved value.
 - Arc has two jobs
     - "act like" a shared reference
     - free the object in drop()

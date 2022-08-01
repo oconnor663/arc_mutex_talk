@@ -1,45 +1,22 @@
 # Arc and Mutex by Example
 ## Climbing the Learning Curve into Intermediate Rust
 
-- threading in Rust, particularly Arc and Mutex
+- threading in Rust
 - safe multithreading is a really important design goal for Rust
 - a lot of language features get involved in threading code
+    - lifetimes
+    - mutability
+    - move semantics
+    - closures
+    - traits like Send and FnOnce
+    - static and const
 - it's a great way to learn but also challenging
 - Rust books (and Rustlings) often include an Arc<Mutex<T>> example, but it's
-  usually late in the book, and it's usually presented whole. There isn't time
-  or space to *play* with the code.
-- It's just hard to teach this as beginner material.
-
-Threading is really central to what Rust is doing, but it takes a lot of
-work to get up to speed to understand these examples.
-
-you need a dozen different examples to explore all the different rules
-that are coming into the picture here
-- mutability
-- lifetimes
-- move semantics
-- traits
-- closures
-later:
-- static
-- const
-- atomic
-
-Threading in Rust can be so difficult in Rust that it's demotivating.
-
-It's especially hard to produce *working code* as a beginner, and it's a
-lot easier to figure out why something doesn't work when you can compare
-it to something that does work. So we're going to see a lot of working
-code.
-
-Also you really need hands-on experience to remember this stuff. You can
-play with these examples.
-
-And some people don't like just reading a book. It gets hard to keep
-stuff in your head, and you need something specific to work towards.
-Maybe understanding these examples can be something to work towards.
-Also seeing how fast computers can do arithmetic is kind of fun and
-worth playing around with.
+  usually late in the book, and there isn't a lot of space to really *play*
+  with the code.
+- But Arc and Mutex are so central to what Rust is doing, that it's really
+  worth sitting down with them and getting our hands dirty.
+- So this is going to be an intermediate level talk.
 
 - closure syntax
     - Like C++ lambda syntax, the Python `lambda` keyword, the Go

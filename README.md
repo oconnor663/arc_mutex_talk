@@ -60,10 +60,11 @@
 - [example 3](examples/3.rs) and [example 4](examples/4.rs): global Mutex, non-const function error
     - const in 1.63, but contents might not be
     - note that the closure goes away, regular functions impl FnOnce
-- [example 5](examples/5.rs): unsafe global Mutex with Option
-    - static mut is always unsafe
-    - could've used MaybeUninit, or just a raw pointer
-- [example 6](examples/6.rs): safe global Mutex with once\_cell::sync::Lazy
+- [example 4](examples/4.rs): static BigUint
+    - constructing a BigUint isn't const
+- [example 5](examples/5.rs): static BigUint using Option
+    - works but initialization is error-prone, tricky for tests
+- [example 6](examples/6.rs): statis BigUint with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
 - [example 7](examples/7.rs): crossbeam::scope also works
     - https://doc.rust-lang.org/std/thread/fn.scope.html

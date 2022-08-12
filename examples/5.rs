@@ -1,22 +1,17 @@
+use num::bigint::BigUint;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static mut NUMBER: Option<Mutex<u64>> = None;
+static NUMBER: Mutex<Option<BigUint>> = Mutex::new(None);
 
 fn main() {
-    unsafe {
-        NUMBER = Some(Mutex::new(rand::random()));
-    }
+    *NUMBER.lock().unwrap() = Some(BigUint::from(0u64));
     thread::spawn(|| loop {
-        unsafe {
-            *NUMBER.as_ref().unwrap().lock().unwrap() += 1;
-        }
+        *NUMBER.lock().unwrap().as_mut().unwrap() += 1u64;
     });
     loop {
-        unsafe {
-            println!("{}", *NUMBER.as_ref().unwrap().lock().unwrap());
-        }
+        println!("{}", *NUMBER.lock().unwrap().as_ref().unwrap());
         thread::sleep(Duration::from_secs(1));
     }
 }

@@ -66,10 +66,7 @@
     - works but initialization is error-prone, tricky for tests
 - [example 6](examples/6.rs): statis BigUint with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
-- [example 7](examples/7.rs): crossbeam::scope also works
-    - https://doc.rust-lang.org/std/thread/fn.scope.html
-    - will be standard in 1.63
-    - was also standard pre-1.0, but unsound
+- [example 7](examples/7.rs): thread::scope also works
 - [example 8](examples/8.rs): unsafe static mut u64
     - EXERCISE: doesn't work with --release
 - [example 9](examples/9.rs): atomics

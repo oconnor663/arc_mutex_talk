@@ -65,7 +65,7 @@
 - [example 5](examples/5.rs): static BigUint using Option
     - works but initialization is error-prone, tricky for tests
 - [example 6](examples/6.rs): statis BigUint with once\_cell::sync::Lazy
-    - https://doc.rust-lang.org/std/lazy/struct.SyncLazy.html
+    - https://doc.rust-lang.org/std/sync/struct.LazyLock.html
 - [example 7](examples/7.rs): thread::scope also works
 - [example 8](examples/8.rs): unsafe static mut u64
     - EXERCISE: doesn't work with --release

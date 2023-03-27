@@ -12,7 +12,6 @@ fn main() {
         }
     });
 }
-
 fn add_loop(number: &Mutex<u64>) {
     loop {
         *number.lock().unwrap() += 1;

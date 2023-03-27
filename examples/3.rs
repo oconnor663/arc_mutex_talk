@@ -1,19 +1,21 @@
-use std::sync::Mutex;
+use std::sync::{Mutex, MutexGuard};
 use std::thread;
 use std::time::Duration;
 
-static NUMBER: Mutex<u64> = Mutex::new(0);
-
 fn main() {
-    thread::spawn(add_loop);
-    loop {
-        println!("{}", *NUMBER.lock().unwrap());
-        thread::sleep(Duration::from_secs(1));
-    }
+    let number = Mutex::new(0u64);
+    thread::scope(|scope| {
+        scope.spawn(|| add_loop(&number));
+        loop {
+            println!("{}", *number.lock().unwrap());
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
 }
 
-fn add_loop() {
+fn add_loop(number: &Mutex<u64>) {
     loop {
-        *NUMBER.lock().unwrap() += 1;
+        let mut guard: MutexGuard<u64> = number.lock().unwrap();
+        *guard += 1;
     }
 }

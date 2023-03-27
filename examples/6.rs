@@ -1,17 +1,17 @@
 use num::bigint::BigUint;
-use once_cell::sync::Lazy;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
-static NUMBER: Lazy<Mutex<BigUint>> = Lazy::new(|| Mutex::new(BigUint::from(0u64)));
+static NUMBER: Mutex<Option<BigUint>> = Mutex::new(None);
 
 fn main() {
+    *NUMBER.lock().unwrap() = Some(BigUint::from(0u64));
     thread::spawn(|| loop {
-        *NUMBER.lock().unwrap() += 1u64;
+        *NUMBER.lock().unwrap().as_mut().unwrap() += 1u64;
     });
     loop {
-        println!("{}", *NUMBER.lock().unwrap());
+        println!("{}", *NUMBER.lock().unwrap().as_ref().unwrap());
         thread::sleep(Duration::from_secs(1));
     }
 }

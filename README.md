@@ -67,6 +67,8 @@
 - [example 6](examples/6.rs): statis BigUint with once\_cell::sync::Lazy
     - https://doc.rust-lang.org/std/sync/struct.LazyLock.html
 - [example 7](examples/7.rs): thread::scope also works
+    - Note that `add_loop` is exactly the same as in example 2. The shared
+      reference doesn't care where it comes from.
 - [example 8](examples/8.rs): unsafe static mut u64
     - EXERCISE: doesn't work with --release
 - [example 9](examples/9.rs): atomics

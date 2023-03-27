@@ -1,4 +1,4 @@
-use std::sync::{Mutex, MutexGuard};
+use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
@@ -15,7 +15,6 @@ fn main() {
 
 fn add_loop(number: &Mutex<u64>) {
     loop {
-        let mut guard: MutexGuard<u64> = number.lock().unwrap();
-        *guard += 1;
+        *number.lock().unwrap() += 1;
     }
 }

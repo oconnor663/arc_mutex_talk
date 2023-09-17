@@ -12,8 +12,8 @@ fn main() {
     }
 }
 
-fn add_loop(number: &Mutex<u64>) {
+fn add_loop(alias: &Mutex<u64>) {
     loop {
-        *number.lock().unwrap() += 1;
+        *alias.lock().unwrap() += 1;
     }
 }

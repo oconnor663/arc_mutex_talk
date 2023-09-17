@@ -32,6 +32,7 @@
 - MutexGuard is "like" a mutable reference.
 - We need the explicit `drop()` because the guard is no longer temporary.
 - EXERCISE: Forget to drop the guard. The Mutex is "unfair".
+- EXERCISE: Try the fair Mutex from parking_lot.
 - What does it mean to be "like" a reference? `Deref` and `DerefMut`.
 - `Deref` happens in `println` and `DerefMut` happens with the `+=` operator.
 - There's another deref hidden in `.lock()`.
